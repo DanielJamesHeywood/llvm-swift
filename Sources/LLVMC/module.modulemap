@@ -1,0 +1,4 @@
+module LLVMC [system] {
+    umbrella header "shims.h"
+    export *
+}
