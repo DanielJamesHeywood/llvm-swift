@@ -6,7 +6,7 @@ public struct LLVMTarget: Hashable {
     internal let _rawTarget: LLVMTargetRef
     
     @inlinable
-    public init(triple: String) throws(LLVMError) {
+    public init(from triple: String) throws(LLVMError) {
         var rawTarget = nil as LLVMTargetRef?
         var rawMessage = nil as UnsafeMutablePointer<CChar>?
         guard LLVMGetTargetFromTriple(triple, &rawTarget, &rawMessage) == 0 else {
