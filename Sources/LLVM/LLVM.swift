@@ -4,7 +4,12 @@ import LLVMC
 public var llvmDefaultTargetTriple: String {
     let rawMessage = LLVMGetDefaultTargetTriple()
     defer {
-        LLVMDisposeMessage(rawMessage)
+        LLVMDisposeMessage(rawMessage.unsafelyUnwrapped)
     }
-    return String(cString: rawMessage!)
+    return String(cString: rawMessage.unsafelyUnwrapped)
+}
+
+@inlinable
+public func llvmInitializeTargetInfos() {
+    LLVMInitializeAllTargetInfos()
 }
