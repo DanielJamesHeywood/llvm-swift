@@ -3,11 +3,11 @@ import LLVMC
 public enum LLVMRelocationMode: Hashable, Sendable {
     case `default`
     case `static`
-    case positionIndependence
-    case dynamicNoPositionIndependence
-    case readOnlyPositionIndependence
-    case readWritePositionIndependence
-    case readOnlyAndReadWritePositionIndependence
+    case positionIndependent
+    case dynamicPositionDependent
+    case readOnlyPositionIndependent
+    case readWritePositionIndependent
+    case readOnlyAndReadWritePositionIndependent
 }
 
 extension LLVMRelocationMode {
@@ -19,15 +19,15 @@ extension LLVMRelocationMode {
             LLVMRelocDefault
         case .static:
             LLVMRelocStatic
-        case .positionIndependence:
+        case .positionIndependent:
             LLVMRelocPIC
-        case .dynamicNoPositionIndependence:
+        case .dynamicPositionDependent:
             LLVMRelocDynamicNoPic
-        case .readOnlyPositionIndependence:
+        case .readOnlyPositionIndependent:
             LLVMRelocROPI
-        case .readWritePositionIndependence:
+        case .readWritePositionIndependent:
             LLVMRelocRWPI
-        case .readOnlyAndReadWritePositionIndependence:
+        case .readOnlyAndReadWritePositionIndependent:
             LLVMRelocROPI_RWPI
         }
     }
