@@ -35,6 +35,24 @@ public final class LLVMBuilder {
     }
     
     @inlinable
+    public func buildTruncation(of value: LLVMValue, to type: LLVMType, name: String = "") -> LLVMValue {
+        precondition(type._context == _context, "The type is not in the same context as the builder")
+        return LLVMValue(
+            _rawValue: LLVMBuildTrunc(_rawBuilder, value._rawValue, type._rawType, name),
+            in: _container.intersection(value._container)
+        )
+    }
+    
+    @inlinable
+    public func buildBitCast(of value: LLVMValue, to type: LLVMType, name: String = "") -> LLVMValue {
+        precondition(type._context == _context, "The type is not in the same context as the builder")
+        return LLVMValue(
+            _rawValue: LLVMBuildBitCast(_rawBuilder, value._rawValue, type._rawType, name),
+            in: _container.intersection(value._container)
+        )
+    }
+    
+    @inlinable
     internal var _context: LLVMContext { _container.context }
 }
 
