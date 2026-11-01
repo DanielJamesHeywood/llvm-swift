@@ -11,7 +11,7 @@ public struct LLVMTarget: Hashable {
         var rawMessage = nil as UnsafeMutablePointer<CChar>?
         guard LLVMGetTargetFromTriple(triple, &rawTarget, &rawMessage) == 0 else {
             defer {
-                LLVMDisposeMessage(rawMessage.unsafelyUnwrapped)
+                LLVMDisposeMessage(rawMessage)
             }
             throw LLVMError(_message: String(cString: rawMessage.unsafelyUnwrapped))
         }

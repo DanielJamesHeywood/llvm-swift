@@ -2,11 +2,11 @@ import LLVMC
 
 @inlinable
 public var llvmDefaultTargetTriple: String {
-    let rawMessage = LLVMGetDefaultTargetTriple()
+    let rawMessage = LLVMGetDefaultTargetTriple() as UnsafeMutablePointer<CChar>
     defer {
-        LLVMDisposeMessage(rawMessage.unsafelyUnwrapped)
+        LLVMDisposeMessage(rawMessage)
     }
-    return String(cString: rawMessage.unsafelyUnwrapped)
+    return String(cString: rawMessage)
 }
 
 @inlinable
