@@ -14,6 +14,9 @@ public final class LLVMDataLayout {
     deinit {
         LLVMDisposeTargetData(_rawDataLayout)
     }
+
+    @inlinable
+    public var pointerSize: Int { Int(LLVMPointerSize(_rawDataLayout)) }
 }
 
 extension LLVMDataLayout: Equatable {
