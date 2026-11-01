@@ -13,3 +13,13 @@ public var llvmDefaultTargetTriple: String {
 public func llvmInitializeTargetInfos() {
     LLVMInitializeAllTargetInfos()
 }
+
+@inlinable
+public func llvmInitializeTargets() {
+    LLVMInitializeAllTargets()
+}
+
+@inlinable
+public func llvmInitializeTargetMachineCodes() {
+    LLVMInitializeAllTargetMCs()
+}
