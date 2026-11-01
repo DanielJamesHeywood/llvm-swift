@@ -3,8 +3,8 @@ import LLVMC
 public enum LLVMRelocationMode: Hashable, Sendable {
     case `default`
     case `static`
-    case positionIndependentCode
-    case dynamicNoPositionIndependentCode
+    case positionIndependence
+    case dynamicNoPositionIndependence
     case readOnlyPositionIndependence
     case readWritePositionIndependence
     case readOnlyAndReadWritePositionIndependence
@@ -19,9 +19,9 @@ extension LLVMRelocationMode {
             LLVMRelocDefault
         case .static:
             LLVMRelocStatic
-        case .positionIndependentCode:
+        case .positionIndependence:
             LLVMRelocPIC
-        case .dynamicNoPositionIndependentCode:
+        case .dynamicNoPositionIndependence:
             LLVMRelocDynamicNoPic
         case .readOnlyPositionIndependence:
             LLVMRelocROPI
