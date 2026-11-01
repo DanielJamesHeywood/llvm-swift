@@ -6,24 +6,10 @@ public final class LLVMTargetMachine {
     internal let _rawTargetMachine: LLVMTargetMachineRef
 
     @inlinable
-    public init(
-        target: LLVMTarget,
-        triple: String,
-        cpu: String = "",
-        features: String = "",
-        optimizationLevel: LLVMCodeGenerationOptimizationLevel = .default,
-        relocationMode: LLVMRelocationMode = .default,
-        codeModel: LLVMCodeModel = .default
-    ) {
-        self._rawTargetMachine = LLVMCreateTargetMachine(
-            target._rawTarget,
-            triple,
-            cpu,
-            features,
-            optimizationLevel._rawCodeGenerationOptimizationLevel,
-            relocationMode._rawRelocationMode,
-            codeModel._rawCodeModel
-        )
+    public init(target: LLVMTarget, triple: String) {
+        let options = LLVMCreateTargetMachineOptions() as LLVMTargetMachineOptionsRef
+        self._rawTargetMachine = LLVMCreateTargetMachineWithOptions(target._rawTarget, triple, options)
+        LLVMDisposeTargetMachineOptions(options)
     }
 
     @inlinable
