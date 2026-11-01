@@ -16,6 +16,11 @@ public final class LLVMTargetMachine {
     deinit {
         LLVMDisposeTargetMachine(_rawTargetMachine)
     }
+
+    @inlinable
+    public func makeDataLayout() -> LLVMDataLayout {
+        LLVMDataLayout(_rawDataLayout: LLVMCreateTargetDataLayout(_rawTargetMachine))
+    }
 }
 
 extension LLVMTargetMachine: Equatable {
