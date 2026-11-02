@@ -36,6 +36,25 @@ public final class LLVMModule {
         }
         return LLVMFunction(_rawValue: rawValue, in: self)
     }
+
+    @inlinable
+    public func addGlobal(
+        _ name: String = "",
+        type: LLVMType,
+        linkage: LLVMLinkage = .external,
+        initialValue: LLVMValue? = nil
+    ) -> LLVMGlobalVariable {
+        precondition(type._context == _context, "The type is not in the same context as the module")
+        let rawValue = LLVMAddGlobal(_rawModule, type._rawType, name) as LLVMValueRef
+        if linkage != .external {
+            LLVMSetLinkage(rawValue, linkage._rawLinkage)
+        }
+        if let initialValue {
+            precondition(initialValue._context == _context, "The initial value is not in the same context as the module")
+            LLVMSetInitializer(rawValue, initialValue._rawValue)
+        }
+        return LLVMGlobalVariable(_rawValue: rawValue, in: self)
+    }
     
     @inlinable
     internal var _rawContext: LLVMContextRef { _context._rawContext }
