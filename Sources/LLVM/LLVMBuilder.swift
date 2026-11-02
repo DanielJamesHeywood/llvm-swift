@@ -27,7 +27,9 @@ public final class LLVMBuilder {
     }
     
     @inlinable
-    public func buildReturn(of value: LLVMValue) -> LLVMReturnInstruction {
+    public func buildReturn(
+        of value: LLVMValue
+    ) -> LLVMReturnInstruction {
         LLVMReturnInstruction(
             _rawValue: LLVMBuildRet(_rawBuilder, value._rawValue),
             in: _container.intersection(value._container)
@@ -35,7 +37,11 @@ public final class LLVMBuilder {
     }
     
     @inlinable
-    public func buildTruncation(of value: LLVMValue, to type: LLVMType, name: String = "") -> LLVMValue {
+    public func buildTruncation(
+        of value: LLVMValue,
+        to type: LLVMType,
+        name: String = ""
+    ) -> LLVMValue {
         precondition(type._context == _context, "The type is not in the same context as the builder")
         return LLVMValue(
             _rawValue: LLVMBuildTrunc(_rawBuilder, value._rawValue, type._rawType, name),
@@ -44,7 +50,11 @@ public final class LLVMBuilder {
     }
     
     @inlinable
-    public func buildBitCast(of value: LLVMValue, to type: LLVMType, name: String = "") -> LLVMValue {
+    public func buildBitCast(
+        of value: LLVMValue,
+        to type: LLVMType,
+        name: String = ""
+    ) -> LLVMValue {
         precondition(type._context == _context, "The type is not in the same context as the builder")
         return LLVMValue(
             _rawValue: LLVMBuildBitCast(_rawBuilder, value._rawValue, type._rawType, name),
@@ -53,7 +63,11 @@ public final class LLVMBuilder {
     }
     
     @inlinable
-    public func buildLoad(of type: LLVMType, from pointer: LLVMValue, name: String = "") -> LLVMLoadInstruction {
+    public func buildLoad(
+        of type: LLVMType,
+        fromPointer pointer: LLVMValue,
+        name: String = ""
+    ) -> LLVMLoadInstruction {
         precondition(type._context == _context, "The type is not in the same context as the builder")
         return LLVMLoadInstruction(
             _rawValue: LLVMBuildLoad2(_rawBuilder, type._rawType, pointer._rawValue, name),
@@ -62,7 +76,10 @@ public final class LLVMBuilder {
     }
     
     @inlinable
-    public func buildStore(of value: LLVMValue, to pointer: LLVMValue) -> LLVMStoreInstruction {
+    public func buildStore(
+        of value: LLVMValue,
+        toPointer pointer: LLVMValue
+    ) -> LLVMStoreInstruction {
         LLVMStoreInstruction(
             _rawValue: LLVMBuildStore(_rawBuilder, value._rawValue, pointer._rawValue),
             in: _container.intersection(value._container).intersection(pointer._container)
