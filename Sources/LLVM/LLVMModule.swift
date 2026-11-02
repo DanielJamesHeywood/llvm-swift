@@ -10,6 +10,7 @@ public final class LLVMModule {
     
     @inlinable
     public init(id: String, sourceFileName: String, in context: LLVMContext) {
+        precondition(!id.contains("\0"), "Unexpected null character in \(id)")
         self._rawModule = LLVMModuleCreateWithNameInContext(id, context._rawContext)
         self._context = context
         var sourceFileName = sourceFileName
@@ -29,6 +30,7 @@ public final class LLVMModule {
         type: LLVMFunctionType,
         linkage: LLVMLinkage = .external
     ) -> LLVMFunction {
+        precondition(!name.contains("\0"), "Unexpected null character in \(name)")
         precondition(type._context == _context, "The type is not in the same context as the module")
         let rawValue = LLVMAddFunction(_rawModule, name, type._rawType) as LLVMValueRef
         if linkage != .external {
@@ -44,6 +46,7 @@ public final class LLVMModule {
         linkage: LLVMLinkage = .external,
         initialValue: LLVMConstant? = nil
     ) -> LLVMGlobalVariable {
+        precondition(!name.contains("\0"), "Unexpected null character in \(name)")
         precondition(type._context == _context, "The type is not in the same context as the module")
         let rawValue = LLVMAddGlobal(_rawModule, type._rawType, name) as LLVMValueRef
         if linkage != .external {
