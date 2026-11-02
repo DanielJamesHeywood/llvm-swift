@@ -25,38 +25,16 @@ public final class LLVMModule {
     
     @inlinable
     public func addFunction(
-        _ name: String,
-        returnType: LLVMType,
-        parameterTypes: some Sequence<LLVMType>,
-        isVariableArgument: Bool = false
+        _ name: String = "",
+        type: LLVMFunctionType,
+        linkage: LLVMLinkage = .external
     ) -> LLVMFunction {
-        precondition(
-            returnType._context == _context,
-            "The return type is not in the same context as the module"
-        )
-        precondition(
-            parameterTypes.allSatisfy { $0._context == _context },
-            "The parameter types are not all in the same context as the module"
-        )
-        var rawParameterTypes = parameterTypes.map { $0._rawType as LLVMTypeRef? }
-        return LLVMFunction(
-            _rawValue: LLVMAddFunction(
-                _rawModule,
-                name,
-                rawParameterTypes.withUnsafeMutableBufferPointer { buffer in
-                    guard let parameterCount = UInt32(exactly: buffer.count) else {
-                        preconditionFailure("Expected at most \(UInt32.max) parameters, but got \(buffer.count)")
-                    }
-                    return LLVMC.LLVMFunctionType(
-                        returnType._rawType,
-                        buffer.baseAddress,
-                        parameterCount,
-                        isVariableArgument ? 1 : 0
-                    )
-                }
-            ),
-            in: self
-        )
+        precondition(type._context == _context, "The type is not in the same context as the module")
+        let rawValue = LLVMAddFunction(_rawModule, name, type._rawType) as LLVMValueRef
+        if linkage != .external {
+            LLVMSetLinkage(rawValue, linkage._rawLinkage)
+        }
+        return LLVMFunction(_rawValue: rawValue, in: self)
     }
     
     @inlinable
