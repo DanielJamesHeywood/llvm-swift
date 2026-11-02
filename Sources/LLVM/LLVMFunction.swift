@@ -1,6 +1,6 @@
 import LLVMC
 
-public final class LLVMFunction: LLVMGlobalValue {
+public final class LLVMFunction: LLVMValue {
     
     @inlinable
     public func argument(at index: Int) -> LLVMArgument {

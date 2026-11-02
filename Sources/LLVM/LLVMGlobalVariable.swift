@@ -1,1 +1,1 @@
-public final class LLVMGlobalVariable: LLVMGlobalValue {}
+public final class LLVMGlobalVariable: LLVMValue {}
