@@ -37,6 +37,37 @@ public final class LLVMBuilder {
     }
     
     @inlinable
+    public func buildExtraction(
+        fromAggregate aggregate: LLVMValue,
+        at index: Int,
+        name: String = ""
+    ) -> LLVMValue {
+        guard let rawIndex = UInt32(exactly: index) else {
+            preconditionFailure("Expected an index between \(UInt32.min) and \(UInt32.max), but got \(index)")
+        }
+        return LLVMValue(
+            _rawValue: LLVMBuildExtractValue(_rawBuilder, aggregate._rawValue, rawIndex, name),
+            in: _container.intersection(aggregate._container)
+        )
+    }
+    
+    @inlinable
+    public func buildInsertion(
+        of element: LLVMValue,
+        intoAggregate aggregate: LLVMValue,
+        at index: Int,
+        name: String = ""
+    ) -> LLVMValue {
+        guard let rawIndex = UInt32(exactly: index) else {
+            preconditionFailure("Expected an index between \(UInt32.min) and \(UInt32.max), but got \(index)")
+        }
+        return LLVMValue(
+            _rawValue: LLVMBuildInsertValue(_rawBuilder, aggregate._rawValue, element._rawValue, rawIndex, name),
+            in: _container.intersection(aggregate._container).intersection(element._container)
+        )
+    }
+    
+    @inlinable
     public func buildTruncation(
         of value: LLVMValue,
         to type: LLVMType,
