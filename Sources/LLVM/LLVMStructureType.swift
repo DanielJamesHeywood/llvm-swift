@@ -3,7 +3,7 @@ import LLVMC
 public final class LLVMStructureType: LLVMType {
 
     @inlinable
-    public init(_ elementTypes: some Sequence<LLVMType>, isPacked: Bool = false, in context: LLVMContext) {
+    public init(_ elementTypes: [LLVMType], isPacked: Bool = false, in context: LLVMContext) {
         precondition(
             elementTypes.allSatisfy { $0._context == context },
             "The element types are not all in the same context as the structure type"
