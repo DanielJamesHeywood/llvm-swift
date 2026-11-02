@@ -1,6 +1,6 @@
 import LLVMC
 
-public final class LLVMPoisonValue: LLVMValue {
+public final class LLVMPoisonValue: LLVMConstant {
 
     @inlinable
     public init(type: LLVMType) {

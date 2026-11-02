@@ -1,6 +1,11 @@
 import LLVMC
 
-public final class LLVMFunction: LLVMValue {
+public final class LLVMFunction: LLVMConstant {
+    
+    @inlinable
+    internal init(_rawValue: LLVMValueRef, in module: LLVMModule) {
+        super.init(_rawValue: _rawValue, in: .module(module))
+    }
     
     @inlinable
     public func argument(at index: Int) -> LLVMArgument {

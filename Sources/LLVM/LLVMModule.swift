@@ -42,7 +42,7 @@ public final class LLVMModule {
         _ name: String = "",
         type: LLVMType,
         linkage: LLVMLinkage = .external,
-        initialValue: LLVMValue? = nil
+        initialValue: LLVMConstant? = nil
     ) -> LLVMGlobalVariable {
         precondition(type._context == _context, "The type is not in the same context as the module")
         let rawValue = LLVMAddGlobal(_rawModule, type._rawType, name) as LLVMValueRef

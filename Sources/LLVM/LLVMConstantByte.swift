@@ -1,6 +1,6 @@
 import LLVMC
 
-public final class LLVMConstantByte: LLVMValue {
+public final class LLVMConstantByte: LLVMConstant {
 
     @inlinable
     public init(words: [UInt64], type: LLVMByteType) {
