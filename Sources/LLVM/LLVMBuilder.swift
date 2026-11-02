@@ -37,6 +37,33 @@ public final class LLVMBuilder {
     }
     
     @inlinable
+    public func buildCall(
+        to callee: LLVMValue,
+        ofType type: LLVMFunctionType,
+        passing arguments: [LLVMValue],
+        name: String = ""
+    ) -> LLVMCallInstruction {
+        precondition(type._context == _context, "The type is not in the same context as the builder")
+        var rawArguments = arguments.map { $0._rawValue as LLVMValueRef? }
+        return LLVMCallInstruction(
+            _rawValue: rawArguments.withUnsafeMutableBufferPointer { buffer in
+                guard let argumentCount = UInt32(exactly: buffer.count) else {
+                    preconditionFailure("Expected at most \(UInt32.max) arguments, but got \(buffer.count)")
+                }
+                return LLVMBuildCall2(
+                    _rawBuilder,
+                    type._rawType,
+                    callee._rawValue,
+                    buffer.baseAddress,
+                    argumentCount,
+                    name
+                )
+            },
+            in: arguments.reduce(_container.intersection(callee._container), { $0.intersection($1._container) })
+        )
+    }
+    
+    @inlinable
     public func buildExtraction(
         fromAggregate aggregate: LLVMValue,
         at index: Int,
