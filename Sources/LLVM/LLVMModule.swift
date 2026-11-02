@@ -57,6 +57,15 @@ public final class LLVMModule {
     }
     
     @inlinable
+    public func printToString() -> String {
+        let rawMessage = LLVMPrintModuleToString(_rawModule) as UnsafeMutablePointer<CChar>
+        defer {
+            LLVMDisposeMessage(rawMessage)
+        }
+        return String(cString: rawMessage)
+    }
+    
+    @inlinable
     internal var _rawContext: LLVMContextRef { _context._rawContext }
 }
 
