@@ -15,11 +15,6 @@ public class LLVMValue {
     }
     
     @inlinable
-    internal convenience init(_rawValue: LLVMValueRef, in context: LLVMContext) {
-        self.init(_rawValue: _rawValue, in: .context(context))
-    }
-    
-    @inlinable
     internal convenience init(_rawValue: LLVMValueRef, in module: LLVMModule) {
         self.init(_rawValue: _rawValue, in: .module(module))
     }

@@ -72,9 +72,6 @@ public final class LLVMModule {
         }
         return String(cString: rawMessage)
     }
-    
-    @inlinable
-    internal var _rawContext: LLVMContextRef { _context._rawContext }
 }
 
 extension LLVMModule: Equatable {
