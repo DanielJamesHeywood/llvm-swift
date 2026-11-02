@@ -50,7 +50,12 @@ public final class LLVMModule {
             LLVMSetLinkage(rawValue, linkage._rawLinkage)
         }
         if let initialValue {
-            precondition(initialValue._context == _context, "The initial value is not in the same context as the module")
+            switch initialValue._container {
+            case let .context(context):
+                precondition(_context == context, "The initial value is not in the same context as the module")
+            case let .module(module):
+                precondition(self == module, "The initial value is in another module")
+            }
             LLVMSetInitializer(rawValue, initialValue._rawValue)
         }
         return LLVMGlobalVariable(_rawValue: rawValue, in: self)
