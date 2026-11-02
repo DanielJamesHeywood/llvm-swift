@@ -60,7 +60,7 @@ public final class LLVMBuilder {
                     name
                 )
             },
-            in: arguments.reduce(_container.intersection(callee._container), { $0.intersection($1._container) })
+            in: arguments.reduce(_container.intersection(callee._container)) { $0.intersection($1._container) }
         )
     }
     
