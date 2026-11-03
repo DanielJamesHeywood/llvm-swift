@@ -10,7 +10,7 @@ public final class LLVMModule {
     
     @inlinable
     public init(id: String, sourceFileName: String, in context: LLVMContext) {
-        precondition(!id.contains("\0"), "Unexpected character '\0' in '\(id.debugDescription.dropFirst().dropLast())'")
+        precondition(!id.contains("\0"), "Unexpected character '\\0' in '\(id.debugDescription.dropFirst().dropLast())'")
         self._rawModule = LLVMModuleCreateWithNameInContext(id, context._rawContext)
         self._context = context
         var sourceFileName = sourceFileName
@@ -32,7 +32,7 @@ public final class LLVMModule {
     ) -> LLVMFunction {
         precondition(
             !name.contains("\0"),
-            "Unexpected character '\0' in '\(name.debugDescription.dropFirst().dropLast())'"
+            "Unexpected character '\\0' in '\(name.debugDescription.dropFirst().dropLast())'"
         )
         precondition(
             type._context == _context,
@@ -54,7 +54,7 @@ public final class LLVMModule {
     ) -> LLVMGlobalVariable {
         precondition(
             !name.contains("\0"),
-            "Unexpected character '\0' in '\(name.debugDescription.dropFirst().dropLast())'"
+            "Unexpected character '\\0' in '\(name.debugDescription.dropFirst().dropLast())'"
         )
         precondition(
             type._context == _context,

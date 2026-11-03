@@ -19,7 +19,7 @@ public final class LLVMFunction: LLVMConstant {
     public func appendBasicBlock(_ name: String = "") -> LLVMBasicBlock {
         precondition(
             !name.contains("\0"),
-            "Unexpected character '\0' in '\(name.debugDescription.dropFirst().dropLast())'"
+            "Unexpected character '\\0' in '\(name.debugDescription.dropFirst().dropLast())'"
         )
         return LLVMBasicBlock(_rawBlock: LLVMAppendBasicBlockInContext(_rawContext, _rawValue, name), in: _container)
     }

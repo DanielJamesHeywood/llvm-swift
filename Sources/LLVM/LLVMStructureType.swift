@@ -6,7 +6,7 @@ public final class LLVMStructureType: LLVMType {
     public init(_ name: String, elementTypes: [LLVMType], isPacked: Bool = false, in context: LLVMContext) {
         precondition(
             !name.contains("\0"),
-            "Unexpected character '\0' in '\(name.debugDescription.dropFirst().dropLast())'"
+            "Unexpected character '\\0' in '\(name.debugDescription.dropFirst().dropLast())'"
         )
         precondition(
             elementTypes.allSatisfy { $0._context == context },
