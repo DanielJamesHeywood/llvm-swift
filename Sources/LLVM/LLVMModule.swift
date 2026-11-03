@@ -26,7 +26,7 @@ public final class LLVMModule {
     
     @inlinable
     public func addFunction(
-        _ name: String = "",
+        _ name: String,
         type: LLVMFunctionType,
         linkage: LLVMLinkage = .external
     ) -> LLVMFunction {
@@ -47,7 +47,7 @@ public final class LLVMModule {
 
     @inlinable
     public func addGlobal(
-        _ name: String = "",
+        _ name: String,
         type: LLVMType,
         linkage: LLVMLinkage = .external,
         initialValue: LLVMConstant? = nil
