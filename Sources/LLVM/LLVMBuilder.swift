@@ -43,14 +43,8 @@ public final class LLVMBuilder {
         passing arguments: [LLVMValue],
         name: String = ""
     ) -> LLVMCallInstruction {
-        precondition(
-            type._context == _context,
-            "The type is not in the same context as the builder"
-        )
-        precondition(
-            !name.contains("\0"),
-            "Unexpected character '\\0' in '\(name.debugDescription.dropFirst().dropLast())'"
-        )
+        precondition(type._context == _context, "The type is not in the same context as the builder")
+        precondition(!name.contains("\0"), "Unexpected character \"\\0\" in \(name.debugDescription)")
         var rawArguments = arguments.map { $0._rawValue as LLVMValueRef? }
         return LLVMCallInstruction(
             _rawValue: rawArguments.withUnsafeMutableBufferPointer { buffer in
@@ -76,10 +70,7 @@ public final class LLVMBuilder {
         at index: Int,
         name: String = ""
     ) -> LLVMValue {
-        precondition(
-            !name.contains("\0"),
-            "Unexpected character '\\0' in '\(name.debugDescription.dropFirst().dropLast())'"
-        )
+        precondition(!name.contains("\0"), "Unexpected character \"\\0\" in \(name.debugDescription)")
         guard let rawIndex = UInt32(exactly: index) else {
             preconditionFailure("Expected an index between \(UInt32.min) and \(UInt32.max), but got \(index)")
         }
@@ -96,10 +87,7 @@ public final class LLVMBuilder {
         at index: Int,
         name: String = ""
     ) -> LLVMValue {
-        precondition(
-            !name.contains("\0"),
-            "Unexpected character '\\0' in '\(name.debugDescription.dropFirst().dropLast())'"
-        )
+        precondition(!name.contains("\0"), "Unexpected character \"\\0\" in \(name.debugDescription)")
         guard let rawIndex = UInt32(exactly: index) else {
             preconditionFailure("Expected an index between \(UInt32.min) and \(UInt32.max), but got \(index)")
         }
@@ -115,14 +103,8 @@ public final class LLVMBuilder {
         to type: LLVMType,
         name: String = ""
     ) -> LLVMValue {
-        precondition(
-            type._context == _context,
-            "The type is not in the same context as the builder"
-        )
-        precondition(
-            !name.contains("\0"),
-            "Unexpected character '\\0' in '\(name.debugDescription.dropFirst().dropLast())'"
-        )
+        precondition(type._context == _context, "The type is not in the same context as the builder")
+        precondition(!name.contains("\0"), "Unexpected character \"\\0\" in \(name.debugDescription)")
         return LLVMValue(
             _rawValue: LLVMBuildTrunc(_rawBuilder, value._rawValue, type._rawType, name),
             in: _container.intersection(value._container)
@@ -135,14 +117,8 @@ public final class LLVMBuilder {
         to type: LLVMType,
         name: String = ""
     ) -> LLVMValue {
-        precondition(
-            type._context == _context,
-            "The type is not in the same context as the builder"
-        )
-        precondition(
-            !name.contains("\0"),
-            "Unexpected character '\\0' in '\(name.debugDescription.dropFirst().dropLast())'"
-        )
+        precondition(type._context == _context, "The type is not in the same context as the builder")
+        precondition(!name.contains("\0"), "Unexpected character \"\\0\" in \(name.debugDescription)")
         return LLVMValue(
             _rawValue: LLVMBuildBitCast(_rawBuilder, value._rawValue, type._rawType, name),
             in: _container.intersection(value._container)
@@ -155,14 +131,8 @@ public final class LLVMBuilder {
         fromPointer pointer: LLVMValue,
         name: String = ""
     ) -> LLVMLoadInstruction {
-        precondition(
-            type._context == _context,
-            "The type is not in the same context as the builder"
-        )
-        precondition(
-            !name.contains("\0"),
-            "Unexpected character '\\0' in '\(name.debugDescription.dropFirst().dropLast())'"
-        )
+        precondition(type._context == _context, "The type is not in the same context as the builder")
+        precondition(!name.contains("\0"), "Unexpected character \"\\0\" in \(name.debugDescription)")
         return LLVMLoadInstruction(
             _rawValue: LLVMBuildLoad2(_rawBuilder, type._rawType, pointer._rawValue, name),
             in: _container.intersection(pointer._container)

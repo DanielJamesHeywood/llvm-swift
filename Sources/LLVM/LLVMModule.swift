@@ -10,7 +10,7 @@ public final class LLVMModule {
     
     @inlinable
     public init(id: String, sourceFileName: String, in context: LLVMContext) {
-        precondition(!id.contains("\0"), "Unexpected character '\\0' in '\(id.debugDescription.dropFirst().dropLast())'")
+        precondition(!id.contains("\0"), "Unexpected character \"\\0\" in \(id.debugDescription)")
         self._rawModule = LLVMModuleCreateWithNameInContext(id, context._rawContext)
         self._context = context
         var sourceFileName = sourceFileName
@@ -30,14 +30,8 @@ public final class LLVMModule {
         type: LLVMFunctionType,
         linkage: LLVMLinkage = .external
     ) -> LLVMFunction {
-        precondition(
-            !name.contains("\0"),
-            "Unexpected character '\\0' in '\(name.debugDescription.dropFirst().dropLast())'"
-        )
-        precondition(
-            type._context == _context,
-            "The type is not in the same context as the module"
-        )
+        precondition(!name.contains("\0"), "Unexpected character \"\\0\" in '\(name.debugDescription)'")
+        precondition(type._context == _context, "The type is not in the same context as the module")
         let rawValue = LLVMAddFunction(_rawModule, name, type._rawType) as LLVMValueRef
         if linkage != .external {
             LLVMSetLinkage(rawValue, linkage._rawLinkage)
@@ -52,14 +46,8 @@ public final class LLVMModule {
         linkage: LLVMLinkage = .external,
         initialValue: LLVMConstant? = nil
     ) -> LLVMGlobalVariable {
-        precondition(
-            !name.contains("\0"),
-            "Unexpected character '\\0' in '\(name.debugDescription.dropFirst().dropLast())'"
-        )
-        precondition(
-            type._context == _context,
-            "The type is not in the same context as the module"
-        )
+        precondition(!name.contains("\0"), "Unexpected character \"\\0\" in '\(name.debugDescription)'")
+        precondition(type._context == _context, "The type is not in the same context as the module")
         let rawValue = LLVMAddGlobal(_rawModule, type._rawType, name) as LLVMValueRef
         if linkage != .external {
             LLVMSetLinkage(rawValue, linkage._rawLinkage)

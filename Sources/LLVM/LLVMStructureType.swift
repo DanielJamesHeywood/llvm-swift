@@ -4,10 +4,7 @@ public final class LLVMStructureType: LLVMType {
 
     @inlinable
     public init(_ name: String, elementTypes: [LLVMType], isPacked: Bool = false, in context: LLVMContext) {
-        precondition(
-            !name.contains("\0"),
-            "Unexpected character '\\0' in '\(name.debugDescription.dropFirst().dropLast())'"
-        )
+        precondition(!name.contains("\0"), "Unexpected character \"\\0\" in '\(name.debugDescription)'")
         precondition(
             elementTypes.allSatisfy { $0._context == context },
             "The element types are not all in the same context as the structure type"
