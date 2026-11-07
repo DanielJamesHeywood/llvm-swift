@@ -30,7 +30,7 @@ public final class LLVMModule {
         type: LLVMFunctionType,
         linkage: LLVMLinkage = .external
     ) -> LLVMFunction {
-        precondition(!name.contains("\0"), "Unexpected character \"\\0\" in '\(name.debugDescription)'")
+        precondition(!name.contains("\0"), "Unexpected character \"\\0\" in \(name.debugDescription)")
         precondition(type._context == _context, "The type is not in the same context as the module")
         let rawValue = LLVMAddFunction(_rawModule, name, type._rawType) as LLVMValueRef
         if linkage != .external {
@@ -46,7 +46,7 @@ public final class LLVMModule {
         linkage: LLVMLinkage = .external,
         initialValue: LLVMConstant? = nil
     ) -> LLVMGlobalVariable {
-        precondition(!name.contains("\0"), "Unexpected character \"\\0\" in '\(name.debugDescription)'")
+        precondition(!name.contains("\0"), "Unexpected character \"\\0\" in \(name.debugDescription)")
         precondition(type._context == _context, "The type is not in the same context as the module")
         let rawValue = LLVMAddGlobal(_rawModule, type._rawType, name) as LLVMValueRef
         if linkage != .external {

@@ -17,7 +17,7 @@ public final class LLVMFunction: LLVMConstant {
     
     @inlinable
     public func appendBasicBlock(_ name: String = "") -> LLVMBasicBlock {
-        precondition(!name.contains("\0"), "Unexpected character \"\\0\" in '\(name.debugDescription)'")
+        precondition(!name.contains("\0"), "Unexpected character \"\\0\" in \(name.debugDescription)")
         return LLVMBasicBlock(_rawBlock: LLVMAppendBasicBlockInContext(_rawContext, _rawValue, name), in: _container)
     }
 }
