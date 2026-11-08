@@ -25,11 +25,7 @@ public final class LLVMModule {
     }
     
     @inlinable
-    public func addFunction(
-        _ name: String,
-        type: LLVMFunctionType,
-        linkage: LLVMLinkage = .external
-    ) -> LLVMFunction {
+    public func addFunction(_ name: String, type: LLVMFunctionType, linkage: LLVMLinkage = .external) -> LLVMFunction {
         precondition(!name.contains("\0"), "Unexpected character \"\\0\" in \(name.debugDescription)")
         precondition(type._context == _context, "The type is not in the same context as the module")
         let rawValue = LLVMAddFunction(_rawModule, name, type._rawType) as LLVMValueRef
@@ -40,26 +36,12 @@ public final class LLVMModule {
     }
 
     @inlinable
-    public func addGlobal(
-        _ name: String,
-        type: LLVMType,
-        linkage: LLVMLinkage = .external,
-        initialValue: LLVMConstant? = nil
-    ) -> LLVMGlobalVariable {
+    public func addGlobal(_ name: String, type: LLVMType, linkage: LLVMLinkage = .external) -> LLVMGlobalVariable {
         precondition(!name.contains("\0"), "Unexpected character \"\\0\" in \(name.debugDescription)")
         precondition(type._context == _context, "The type is not in the same context as the module")
         let rawValue = LLVMAddGlobal(_rawModule, type._rawType, name) as LLVMValueRef
         if linkage != .external {
             LLVMSetLinkage(rawValue, linkage._rawLinkage)
-        }
-        if let initialValue {
-            switch initialValue._container {
-            case let .context(context):
-                precondition(_context == context, "The initial value is not in the same context as the module")
-            case let .module(module):
-                precondition(self == module, "The initial value is in another module")
-            }
-            LLVMSetInitializer(rawValue, initialValue._rawValue)
         }
         return LLVMGlobalVariable(_rawValue: rawValue, in: self)
     }
