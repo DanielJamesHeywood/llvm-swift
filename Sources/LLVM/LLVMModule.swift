@@ -8,14 +8,10 @@ public final class LLVMModule {
     public let context: LLVMContext
     
     @inlinable
-    public init(id: String, sourceFileName: String, in context: LLVMContext) {
+    public init(id: String = "", in context: LLVMContext) {
         precondition(!id.contains("\0"), "Unexpected character \"\\0\" in \(id.debugDescription)")
         self._rawModule = LLVMModuleCreateWithNameInContext(id, context._rawContext)
         self.context = context
-        var sourceFileName = sourceFileName
-        sourceFileName.withUTF8 { buffer in
-            LLVMSetSourceFileName(_rawModule, buffer.baseAddress, buffer.count)
-        }
     }
     
     @inlinable
@@ -24,7 +20,11 @@ public final class LLVMModule {
     }
     
     @inlinable
-    public func addFunction(_ name: String, type: LLVMFunctionType, linkage: LLVMLinkage = .external) -> LLVMFunction {
+    public func addFunction(
+        _ name: String = "",
+        type: LLVMFunctionType,
+        linkage: LLVMLinkage = .external
+    ) -> LLVMFunction {
         precondition(!name.contains("\0"), "Unexpected character \"\\0\" in \(name.debugDescription)")
         precondition(type.context == context, "The type is not in the same context as the module")
         let rawValue = LLVMAddFunction(_rawModule, name, type._rawType) as LLVMValueRef
@@ -35,7 +35,11 @@ public final class LLVMModule {
     }
 
     @inlinable
-    public func addGlobal(_ name: String, type: LLVMType, linkage: LLVMLinkage = .external) -> LLVMGlobalVariable {
+    public func addGlobal(
+        _ name: String = "",
+        type: LLVMType,
+        linkage: LLVMLinkage = .external
+    ) -> LLVMGlobalVariable {
         precondition(!name.contains("\0"), "Unexpected character \"\\0\" in \(name.debugDescription)")
         precondition(type.context == context, "The type is not in the same context as the module")
         let rawValue = LLVMAddGlobal(_rawModule, type._rawType, name) as LLVMValueRef
