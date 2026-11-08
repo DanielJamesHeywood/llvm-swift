@@ -171,5 +171,5 @@ extension LLVMBuilder: Hashable {
 extension LLVMBuilder: CustomReflectable {
     
     @inlinable
-    public var customMirror: Mirror { Mirror(self, children: [:]) }
+    public var customMirror: Mirror { Mirror(self, children: [:], displayStyle: .class) }
 }

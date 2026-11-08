@@ -31,5 +31,7 @@ extension LLVMType: Hashable {
 extension LLVMType: CustomReflectable {
     
     @inlinable
-    public var customMirror: Mirror { Mirror(self, children: [:]) }
+    public var customMirror: Mirror {
+        Mirror(self as! Self, children: [:], displayStyle: .class, ancestorRepresentation: .suppressed)
+    }
 }

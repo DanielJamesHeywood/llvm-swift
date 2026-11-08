@@ -43,5 +43,7 @@ extension LLVMValue: Hashable {
 extension LLVMValue: CustomReflectable {
     
     @inlinable
-    public var customMirror: Mirror { Mirror(self, children: [:]) }
+    public var customMirror: Mirror {
+        Mirror(self as! Self, children: [:], displayStyle: .class, ancestorRepresentation: .suppressed)
+    }
 }
