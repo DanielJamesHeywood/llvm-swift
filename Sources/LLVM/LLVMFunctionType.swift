@@ -5,7 +5,7 @@ public final class LLVMFunctionType: LLVMType {
     @inlinable
     public init(returnType: LLVMType, parameterTypes: [LLVMType], isVariableArgument: Bool = false) {
         precondition(
-            parameterTypes.allSatisfy { $0._context == returnType._context },
+            parameterTypes.allSatisfy { $0.context == returnType.context },
             "The parameter types are not all in the same context as the return type"
         )
         var rawParameterTypes = parameterTypes.map { $0._rawType as LLVMTypeRef? }
@@ -21,7 +21,7 @@ public final class LLVMFunctionType: LLVMType {
                     isVariableArgument ? 1 : 0
                 )
             },
-            in: returnType._context
+            in: returnType.context
         )
     }
 }

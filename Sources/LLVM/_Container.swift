@@ -12,7 +12,7 @@ extension _Container {
         case let .context(context):
             context
         case let .module(module):
-            module._context
+            module.context
         }
     }
     
@@ -23,7 +23,7 @@ extension _Container {
             precondition(context == otherContext, "The contexts are not the same")
             return .context(context)
         case let (.context(context), .module(module)), let (.module(module), .context(context)):
-            precondition(module._context == context, "The module is not in the context")
+            precondition(module.context == context, "The module is not in the context")
             return .module(module)
         case let (.module(module), .module(otherModule)):
             precondition(module == otherModule, "The modules are not the same")

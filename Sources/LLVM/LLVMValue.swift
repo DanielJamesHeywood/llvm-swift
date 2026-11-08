@@ -20,10 +20,10 @@ public class LLVMValue {
     }
     
     @inlinable
-    internal final var _context: LLVMContext { _container.context }
+    public final var context: LLVMContext { _container.context }
     
     @inlinable
-    internal final var _rawContext: LLVMContextRef { _context._rawContext }
+    internal final var _rawContext: LLVMContextRef { context._rawContext }
 }
 
 extension LLVMValue: Equatable {

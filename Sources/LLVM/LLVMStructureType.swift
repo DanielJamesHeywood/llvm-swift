@@ -5,7 +5,7 @@ public final class LLVMStructureType: LLVMType {
     @inlinable
     public init(elementTypes: [LLVMType], isPacked: Bool = false, in context: LLVMContext) {
         precondition(
-            elementTypes.allSatisfy { $0._context == context },
+            elementTypes.allSatisfy { $0.context == context },
             "The element types are not all in the same context as the structure type"
         )
         var rawElementTypes = elementTypes.map { $0._rawType as LLVMTypeRef? }

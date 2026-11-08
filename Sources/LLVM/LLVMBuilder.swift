@@ -21,7 +21,7 @@ public final class LLVMBuilder {
     
     @inlinable
     public func position(atEndOf block: LLVMBasicBlock) {
-        precondition(_context == block._context, "The block is not in the same context as the builder")
+        precondition(block.context == context, "The block is not in the same context as the builder")
         LLVMPositionBuilderAtEnd(_rawBuilder, block._rawBlock)
         _container = block._container
     }
@@ -43,7 +43,7 @@ public final class LLVMBuilder {
         passing arguments: [LLVMValue],
         name: String = ""
     ) -> LLVMCallInstruction {
-        precondition(type._context == _context, "The type is not in the same context as the builder")
+        precondition(type.context == context, "The type is not in the same context as the builder")
         precondition(!name.contains("\0"), "Unexpected character \"\\0\" in \(name.debugDescription)")
         var rawArguments = arguments.map { $0._rawValue as LLVMValueRef? }
         return LLVMCallInstruction(
@@ -103,7 +103,7 @@ public final class LLVMBuilder {
         to type: LLVMType,
         name: String = ""
     ) -> LLVMValue {
-        precondition(type._context == _context, "The type is not in the same context as the builder")
+        precondition(type.context == context, "The type is not in the same context as the builder")
         precondition(!name.contains("\0"), "Unexpected character \"\\0\" in \(name.debugDescription)")
         return LLVMValue(
             _rawValue: LLVMBuildTrunc(_rawBuilder, value._rawValue, type._rawType, name),
@@ -117,7 +117,7 @@ public final class LLVMBuilder {
         to type: LLVMType,
         name: String = ""
     ) -> LLVMValue {
-        precondition(type._context == _context, "The type is not in the same context as the builder")
+        precondition(type.context == context, "The type is not in the same context as the builder")
         precondition(!name.contains("\0"), "Unexpected character \"\\0\" in \(name.debugDescription)")
         return LLVMValue(
             _rawValue: LLVMBuildBitCast(_rawBuilder, value._rawValue, type._rawType, name),
@@ -131,7 +131,7 @@ public final class LLVMBuilder {
         fromPointer pointer: LLVMValue,
         name: String = ""
     ) -> LLVMLoadInstruction {
-        precondition(type._context == _context, "The type is not in the same context as the builder")
+        precondition(type.context == context, "The type is not in the same context as the builder")
         precondition(!name.contains("\0"), "Unexpected character \"\\0\" in \(name.debugDescription)")
         return LLVMLoadInstruction(
             _rawValue: LLVMBuildLoad2(_rawBuilder, type._rawType, pointer._rawValue, name),
@@ -151,7 +151,7 @@ public final class LLVMBuilder {
     }
     
     @inlinable
-    internal var _context: LLVMContext { _container.context }
+    public var context: LLVMContext { _container.context }
 }
 
 extension LLVMBuilder: Equatable {

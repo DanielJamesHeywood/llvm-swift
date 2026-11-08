@@ -11,7 +11,7 @@ public final class LLVMConstantInteger: LLVMConstant {
             _rawValue: words.withUnsafeBufferPointer { buffer in
                 LLVMConstIntOfArbitraryPrecision(type._rawType, wordCount, buffer.baseAddress)
             },
-            in: .context(type._context)
+            in: .context(type.context)
         )
     }
 }

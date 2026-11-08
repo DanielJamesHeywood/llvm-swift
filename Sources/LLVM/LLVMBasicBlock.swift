@@ -15,7 +15,7 @@ public final class LLVMBasicBlock {
     }
     
     @inlinable
-    internal var _context: LLVMContext { _container.context }
+    public var context: LLVMContext { _container.context }
 }
 
 extension LLVMBasicBlock: Equatable {
