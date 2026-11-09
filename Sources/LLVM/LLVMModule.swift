@@ -1,3 +1,5 @@
+import SystemPackage
+
 import LLVMC
 
 public final class LLVMModule {
@@ -50,12 +52,20 @@ public final class LLVMModule {
     }
     
     @inlinable
-    public func printToString() -> String {
-        let rawMessage = LLVMPrintModuleToString(_rawModule) as UnsafeMutablePointer<CChar>
-        defer {
-            LLVMDisposeMessage(rawMessage)
+    public func writeIR(to path: FilePath) throws {
+        let descriptor = try FileDescriptor.open(
+            path,
+            .writeOnly,
+            options: [.create, .truncate],
+            permissions: [.ownerReadWrite, .groupRead, .otherRead]
+        )
+        try descriptor.closeAfter {
+            let rawMessage = LLVMPrintModuleToString(_rawModule) as UnsafeMutablePointer<CChar>
+            defer {
+                LLVMDisposeMessage(rawMessage)
+            }
+            try descriptor.writeAll(String(cString: rawMessage).utf8)
         }
-        return String(cString: rawMessage)
     }
 }
 
