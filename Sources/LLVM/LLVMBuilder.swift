@@ -27,6 +27,7 @@ public final class LLVMBuilder {
     }
     
     @inlinable
+    @discardableResult
     public func buildReturn(
         of value: LLVMValue
     ) -> LLVMReturnInstruction {
@@ -37,6 +38,7 @@ public final class LLVMBuilder {
     }
     
     @inlinable
+    @discardableResult
     public func buildCall(
         to callee: LLVMValue,
         ofType type: LLVMFunctionType,
@@ -140,6 +142,7 @@ public final class LLVMBuilder {
     }
     
     @inlinable
+    @discardableResult
     public func buildStore(
         of value: LLVMValue,
         toPointer pointer: LLVMValue
