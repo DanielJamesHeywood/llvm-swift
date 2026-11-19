@@ -31,7 +31,10 @@ public final class LLVMBuilder {
     public func buildReturn(
         of value: LLVMValue
     ) -> LLVMReturnInstruction {
-        LLVMReturnInstruction(
+        guard case .module = _container else {
+            preconditionFailure("The builder is not positioned in a block")
+        }
+        return LLVMReturnInstruction(
             _rawValue: LLVMBuildRet(_rawBuilder, value._rawValue),
             in: _container.intersection(value._container)
         )
@@ -45,6 +48,9 @@ public final class LLVMBuilder {
         passing arguments: [LLVMValue],
         name: String = ""
     ) -> LLVMCallInstruction {
+        guard case .module = _container else {
+            preconditionFailure("The builder is not positioned in a block")
+        }
         precondition(type.context == context, "The type is not in the same context as the builder")
         precondition(!name.contains("\0"), "Unexpected character \"\\0\" in \(name.debugDescription)")
         var rawArguments = arguments.map { $0._rawValue as LLVMValueRef? }
@@ -72,6 +78,9 @@ public final class LLVMBuilder {
         at index: Int,
         name: String = ""
     ) -> LLVMValue {
+        guard case .module = _container else {
+            preconditionFailure("The builder is not positioned in a block")
+        }
         precondition(!name.contains("\0"), "Unexpected character \"\\0\" in \(name.debugDescription)")
         guard let rawIndex = UInt32(exactly: index) else {
             preconditionFailure("Expected an index between \(UInt32.min) and \(UInt32.max), but got \(index)")
@@ -89,6 +98,9 @@ public final class LLVMBuilder {
         at index: Int,
         name: String = ""
     ) -> LLVMValue {
+        guard case .module = _container else {
+            preconditionFailure("The builder is not positioned in a block")
+        }
         precondition(!name.contains("\0"), "Unexpected character \"\\0\" in \(name.debugDescription)")
         guard let rawIndex = UInt32(exactly: index) else {
             preconditionFailure("Expected an index between \(UInt32.min) and \(UInt32.max), but got \(index)")
@@ -105,6 +117,9 @@ public final class LLVMBuilder {
         to type: LLVMType,
         name: String = ""
     ) -> LLVMValue {
+        guard case .module = _container else {
+            preconditionFailure("The builder is not positioned in a block")
+        }
         precondition(type.context == context, "The type is not in the same context as the builder")
         precondition(!name.contains("\0"), "Unexpected character \"\\0\" in \(name.debugDescription)")
         return LLVMValue(
@@ -119,6 +134,9 @@ public final class LLVMBuilder {
         to type: LLVMType,
         name: String = ""
     ) -> LLVMValue {
+        guard case .module = _container else {
+            preconditionFailure("The builder is not positioned in a block")
+        }
         precondition(type.context == context, "The type is not in the same context as the builder")
         precondition(!name.contains("\0"), "Unexpected character \"\\0\" in \(name.debugDescription)")
         return LLVMValue(
@@ -133,6 +151,9 @@ public final class LLVMBuilder {
         fromPointer pointer: LLVMValue,
         name: String = ""
     ) -> LLVMLoadInstruction {
+        guard case .module = _container else {
+            preconditionFailure("The builder is not positioned in a block")
+        }
         precondition(type.context == context, "The type is not in the same context as the builder")
         precondition(!name.contains("\0"), "Unexpected character \"\\0\" in \(name.debugDescription)")
         return LLVMLoadInstruction(
@@ -147,7 +168,10 @@ public final class LLVMBuilder {
         of value: LLVMValue,
         toPointer pointer: LLVMValue
     ) -> LLVMStoreInstruction {
-        LLVMStoreInstruction(
+        guard case .module = _container else {
+            preconditionFailure("The builder is not positioned in a block")
+        }
+        return LLVMStoreInstruction(
             _rawValue: LLVMBuildStore(_rawBuilder, value._rawValue, pointer._rawValue),
             in: _container.intersection(value._container).intersection(pointer._container)
         )
