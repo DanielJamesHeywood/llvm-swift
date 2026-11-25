@@ -15,7 +15,7 @@ public enum LLVMLinkage: Hashable, Sendable {
 }
 
 extension LLVMLinkage {
-
+    
     @inlinable
     internal var _rawLinkage: LLVMC.LLVMLinkage {
         switch self {

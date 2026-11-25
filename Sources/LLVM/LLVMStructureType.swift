@@ -1,14 +1,14 @@
 import LLVMC
 
 public final class LLVMStructureType: LLVMType {
-
+    
     @inlinable
     public init(elementTypes: [LLVMType], isPacked: Bool = false, in context: LLVMContext) {
         precondition(
-            elementTypes.allSatisfy { $0.context == context },
+            elementTypes.allSatisfy { type in type.context == context },
             "The element types are not all in the same context as the structure type"
         )
-        var rawElementTypes = elementTypes.map { $0._rawType as LLVMTypeRef? }
+        var rawElementTypes = elementTypes.map { type in type._rawType as LLVMTypeRef? }
         super.init(
             _rawType: rawElementTypes.withUnsafeMutableBufferPointer { buffer in
                 guard let elementCount = UInt32(exactly: buffer.count) else {

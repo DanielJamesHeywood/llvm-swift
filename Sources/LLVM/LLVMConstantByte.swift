@@ -1,7 +1,7 @@
 import LLVMC
 
 public final class LLVMConstantByte: LLVMConstant {
-
+    
     @inlinable
     public init(words: [UInt64], type: LLVMByteType) {
         guard let wordCount = UInt32(exactly: words.count), wordCount > 0 else {

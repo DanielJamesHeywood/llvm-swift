@@ -35,7 +35,7 @@ public final class LLVMModule {
         }
         return LLVMFunction(_rawValue: rawValue, in: self)
     }
-
+    
     @inlinable
     public func addGlobal(
         _ name: String = "",

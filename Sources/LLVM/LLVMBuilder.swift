@@ -53,7 +53,7 @@ public final class LLVMBuilder {
         }
         precondition(type.context == context, "The type is not in the same context as the builder")
         precondition(!name.contains("\0"), "Unexpected character \"\\0\" in \(name.debugDescription)")
-        var rawArguments = arguments.map { $0._rawValue as LLVMValueRef? }
+        var rawArguments = arguments.map { argument in argument._rawValue as LLVMValueRef? }
         return LLVMCallInstruction(
             _rawValue: rawArguments.withUnsafeMutableBufferPointer { buffer in
                 guard let argumentCount = UInt32(exactly: buffer.count) else {
@@ -68,7 +68,9 @@ public final class LLVMBuilder {
                     name
                 )
             },
-            in: arguments.reduce(_container.intersection(callee._container)) { $0.intersection($1._container) }
+            in: arguments.reduce(_container.intersection(callee._container)) { container, argument in
+                container.intersection(argument._container)
+            }
         )
     }
     
