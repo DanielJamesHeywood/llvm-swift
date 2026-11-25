@@ -40,13 +40,18 @@ public final class LLVMModule {
     public func addGlobal(
         _ name: String = "",
         type: LLVMType,
-        linkage: LLVMLinkage = .external
+        linkage: LLVMLinkage = .external,
+        initializer: LLVMConstant? = nil
     ) -> LLVMGlobalVariable {
         precondition(!name.contains("\0"), "Unexpected character \"\\0\" in \(name.debugDescription)")
         precondition(type.context == context, "The type is not in the same context as the module")
         let rawValue = LLVMAddGlobal(_rawModule, type._rawType, name) as LLVMValueRef
         if linkage != .external {
             LLVMSetLinkage(rawValue, linkage._rawLinkage)
+        }
+        if let initializer {
+            precondition(initializer.context == context, "The initializer is not in the same context as the module")
+            LLVMSetInitializer(rawValue, initializer._rawValue)
         }
         return LLVMGlobalVariable(_rawValue: rawValue, in: self)
     }
